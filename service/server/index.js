@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 
 app.get('/products/:product_id/related', (req, res) => {
-  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc/products/11050/related', {
+  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc/products/'+req.params.product_id+'/related', {
     headers: {
       Authorization: process.env.ACCESS_TOKEN,
     },
@@ -36,8 +36,19 @@ app.get('/products', (req, res) => {
   }) 
 })
 
+app.get('/products/:product_id', (req, res) => {
+  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc/products/'+req.params.product_id, {
+    headers: {
+      Authorization: process.env.ACCESS_TOKEN,
+    },
+  }).then((response) => {
+   // console.log(response.data)
+    res.send(response.data)
+  }) 
+})
+
 app.get('/products/:product_id/styles', (req, res) => {
-  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc/products/11020/styles', {
+  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc/products/'+req.params.product_id+'/styles', {
     headers: {
       Authorization: process.env.ACCESS_TOKEN,
     },
@@ -46,6 +57,18 @@ app.get('/products/:product_id/styles', (req, res) => {
     res.send(response.data)
   }) 
 })
+
+app.get('/reviews/meta/:product_id', (req, res) => {
+  axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/hrnyc/reviews/meta?product_id='+ req.params.product_id, {
+    headers: {
+      Authorization: process.env.ACCESS_TOKEN,
+    },
+  }).then((response) => {
+    console.log(response.data)
+    res.send(response.data)
+  }) 
+})
+
 
 
 app.listen(port, () => {
